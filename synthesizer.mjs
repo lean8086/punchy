@@ -1,4 +1,4 @@
-const audio = new AudioContext() || new webkitAudioContext();
+const audio = window.AudioContext ? new window.AudioContext() : new window.webkitAudioContext();
 let oscillators = {};
 
 // Wait for user interaction https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio

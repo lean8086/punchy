@@ -1,4 +1,4 @@
-const audio = new AudioContext() || new webkitAudioContext();
+const audio = window.AudioContext ? new window.AudioContext() : new window.webkitAudioContext();
 let sources = {};
 let buffers = {};
 

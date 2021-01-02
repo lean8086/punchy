@@ -1,25 +1,82 @@
-<label>
-  <input type="checkbox" id="consent"/>
-  Allow to play sound
-</label>
+<title>Punchy - MIDI controller</title>
 
-<ol>
-  <li><input type="file" class="soundFile" id="btn1"/></li>
-  <li><input type="file" class="soundFile" id="btn2"/></li>
-  <li><input type="file" class="soundFile" id="btn3"/></li>
-  <li><input type="file" class="soundFile" id="btn4"/></li>
-  <li><input type="file" class="soundFile" id="btn5"/></li>
-  <li><input type="file" class="soundFile" id="btn6"/></li>
-  <li><input type="file" class="soundFile" id="btn7"/></li>
-  <li><input type="file" class="soundFile" id="btn8"/></li>
-  <li><input type="file" class="soundFile" id="btn9"/></li>
-  <li><input type="file" class="soundFile" id="btn10"/></li>
-  <li><input type="file" class="soundFile" id="btn11"/></li>
-  <li><input type="file" class="soundFile" id="btn12"/></li>
-  <li><input type="file" class="soundFile" id="btn13"/></li>
-  <li><input type="file" class="soundFile" id="btn14"/></li>
-  <li><input type="file" class="soundFile" id="btn15"/></li>
-  <li><input type="file" class="soundFile" id="btn16"/></li>
-</ol>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
-<script type="module" src="./src/midi.mjs"></script>
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    color: black;
+  }
+
+  a {
+    color: black;
+  }
+
+  h1 {
+    font-size: 64px;
+    margin-top: 54px;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 54px;
+  }
+
+  .synth-content,
+  .sampler-content {
+    display: none;
+    margin-top: 54px;
+  }
+
+  #synth:checked ~ .synth-content,
+  #sampler:checked ~ .sampler-content {
+    display: block;
+  }
+
+  #synth:checked ~ p [for="synth"],
+  #sampler:checked ~ p [for="sampler"] {
+    border-bottom: 3px solid black;
+  }
+</style>
+
+<h1>Punchy 🎧</h1>
+<h2>A WebMIDI and WebAudio implementation for <a href="https://lean8086.com/articles/building-an-arduino-midi-controller/" target="blank">MIDI controllers</a>, by <a href="https://lean8086.com/" target="blank">Leandro Linares</a>.</h2>
+
+<p><strong>Status:</strong> <span id="status">No MIDI controller was found.</span></p>
+<p><strong>Permission:</strong> <label><input type="checkbox" id="consent"/>Allow this browser to play MIDI sounds.</label></p>
+
+<input type="radio" name="tabs" id="synth" value="synth" checked hidden/>
+<input type="radio" name="tabs" id="sampler" value="sampler" hidden/>
+
+<p><strong>Mode:</strong> <label for="synth">Synthesizer</label> or <label for="sampler">Sampler</label>.</p>
+
+<p class="synth-content"><strong>Press any button on your MIDI controller to play directly in the browser.</strong></p>
+
+<div class="sampler-content">
+  <strong>Load an audio file into any button to play.</strong>
+  <ol>
+    <li><input type="file" class="soundFile" id="btn1" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn2" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn3" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn4" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn5" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn6" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn7" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn8" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn9" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn10" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn11" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn12" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn13" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn14" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn15" accept="audio/*"/></li>
+    <li><input type="file" class="soundFile" id="btn16" accept="audio/*"/></li>
+  </ol>
+</div>
+
+<script type="module" src="./midi.mjs"></script>

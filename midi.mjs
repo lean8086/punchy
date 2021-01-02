@@ -1,5 +1,17 @@
-import { noteOn, noteOff } from './sampler.mjs';
+if (!navigator.requestMIDIAccess) {
+  alert('This browser doesn\'t support requestMIDIAccess');
+}
+if (!window.AudioContext && !window.webkitAudioContext) {
+  alert('This browser doesn\'t support AudioContext');
+}
 
+import * as synth from './synthesizer.mjs';
+import * as sampler from './sampler.mjs';
+
+let mode = 'synth';
+[].forEach.call(document.querySelectorAll('[name="tabs"]'), (tab) => {
+  tab.addEventListener('change', ev => mode = ev.target.value);
+});
 let playing = {};
 
 /**
@@ -13,7 +25,7 @@ function MIDIFailure() {
 
 function MIDISuccess(MIDIAccess) {
   // Log connected/disconnected MIDI inputs
-  MIDIAccess.onstatechange = ev => console.info(ev.port.name, ev.port.state);
+  MIDIAccess.onstatechange = ev => document.getElementById('status').innerHTML = `${ev.port.name} ${ev.port.state}.`;
   // Listen for every message from every MIDI input
   for (const input of MIDIAccess.inputs.values()) {
     input.onmidimessage = processMIDIMessage;
@@ -23,6 +35,7 @@ function MIDISuccess(MIDIAccess) {
 function processMIDIMessage(message) {
   // Destructure message data. A velocity value might not be included with a noteOff command
   const [command, note, velocity = 0] = message.data;
+  const { noteOn, noteOff } = mode === 'synth' ? synth : sampler;
   // 144 is note ON only when it has a defined velocity
   if (command === 144 && velocity && !playing[note]) {
     playing[note] = true;
